@@ -1,16 +1,13 @@
 #Query-query Dasar NoSQL
-
-Repository ini dibuat untuk latihan dasar-dasar operasi dan query pada database **NoSQL**.  
+Repository ini dibuat untuk latihan dasar-dasar operasi dan query pada database NoSQL.  
 Project ini berisi file HTML sederhana yang digunakan untuk latihan Git, GitHub, dan penyelesaian konflik merge antara local dan remote.
-
----
 
 # Tujuan Project
 - Memahami cara kerja Git (commit, push, pull)
 - Mempelajari cara membuat konflik antar versi
 - Melatih penyelesaian konflik merge
 - Latihan membuat repository GitHub
-- Latihan query dasar NoSQL (MongoDB / Firebase / Cassandra, dll.)
+- Latihan query dasar NoSQL (MongoDB)
 
 # Isi Repository
 - index.html — File HTML yang digunakan sebagai latihan perubahan lokal dan remote.
