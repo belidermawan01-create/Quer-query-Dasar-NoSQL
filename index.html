@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query-query  Dasar NoSQL</title>
+</head>
+<body>
+    <script>
+        // melihat daftar database
+    // show dbs
+// membuat database db_toko sekaligus menggunakan 
+   // use db_toko
+// melihat database yng sedang digunakan
+db.getName()
+// melihat informasi host yng di gunakan
+db.hostInfo()
+// melihat versi mongodb yng di gunakan
+db.version()
+// cek info statistik pengguna database
+db.stats()
+// menghapus database
+db.dropDatabase()
+// cara membuat collection atau klo di mysql table
+db.createCollection("customers")
+db.createCollection("products")
+db.createCollection("orders")
+db.createCollection("tes")
+// cek daftar collection
+db.getCollectionNames()
+// mengubah nama Collection
+db.customers.renameCollection("pelanggan")
+// menghapus collection
+db.tes.drop()
+// menampilkan isi documen/baris
+db.customers.find();
+// menambahkan document baru 
+db.customers.insertOne({
+    name: "Ucup",
+    gender: "L",
+    no_hp: "085671296312",
+    alamat: "Bandung",
+    tgl_lahir: "12-08-2006"
+})
+
+db.customers.insertOne({
+    _id: "beli",
+    name: "Beli Dermawan"
+})
+// melihat waktu saat ini
+db.orders.insertOne({
+    ordersId: "A123",
+    createdAt: new Date()
+})
+// nambahkan sub documen
+db.customers.insertOne({
+    name: "Budi",
+    address : {
+        street: "Jl.Mawar",
+        city: "Bandung"
+    }
+})
+
+db.products.insertOne({
+    name: "Laptop Asus ROG strix",
+    tags: ["elektronik","komputer","teknologi"]
+})
+
+db.products.insertOne({
+    name: "Keyboard Logitech",
+    price: NumberDecimal("125.50")
+})
+
+// menambahkan banyak data berupa array
+  db.customers.insertMany([
+    {
+      name: "Alisa Cahyani",
+      gender: "P",
+      no_hp: "083894728556",
+      alamat: {
+        street: "Jl. Mangga",
+        city: "Jakarta",
+      },
+      tgl_lahir: "1985-04-02",
+    },
+    {
+      name: "Siti Maesaroh",
+      gender: "P",
+      no_hp: "085749375017",
+      alamat: {
+        street: "Jl. Apel",
+        city: "Bandung",
+      },
+      tgl_lahir: "1999-06-12",
+    },
+  ]);
+
+//   mencari apa yng ada di dalam collection dalam customers
+db.customers.find({gender: "P"})
+
+// mengubah document
+db.customers.updateOne(
+  {
+    _id: ObjectId("692d0ef34ad1ea44a68de66d"),
+  },
+  {
+    $set: {
+      name: "Sri Alisa Cahyani",
+      alamat: {
+        street: "Jl. Anggrek",
+        city: "Jakarta",
+      },
+    },
+  }
+);
+// 
+db.customers.find({"alamat.city": "Jakarta"})
+
+// update atau ubah banyak data
+db.customers.updateMany(
+  {
+    gender: "P",
+  },
+  {
+    $set: {
+      gender: "Perempuan",
+    },
+  }
+);
+
+db.customers.updateMany(
+    {},
+    {
+        $rename: {
+            "name" : "nama"
+        }
+    }
+)
+
+// Menghapus document
+db.customers.deleteOne({nama:"Ucup"})
+db.customers.deleteMany({gender:"P"})
+
+// reset semua document pada collection
+db.customers.deleteMany({})
+
+
+// 1. Saya bikin Products.insertMany
+db.products.insertMany([
+    {
+        _id: 1,
+        name: "Indomie Goreng",
+        category: "Food",
+        price: 3000,
+        stok: 50,
+        supplier: "Indofood"
+    },
+    {
+        _id: 2,
+        name: "Aqua 600ml",
+        category: "Drink",
+        price: 4000,
+        stok: 80,
+        supplier: "Danone"
+    },
+    {
+        _id: 3,
+        name: "Kopi ABC Sachet",
+        category: "Drink",
+        price: 1500,
+        stok: 100,
+        supplier: "ABC coffee"
+    },
+    {
+        _id: 4,
+        name: "sari Roti Tawar",
+        category: "Food",
+        price: 12000,
+        stok: 30,
+        supplier: "Sari Roti"
+    },
+    {
+        _id: 5,
+        name: "Bimoli 1L",
+        category: "Grocery",
+        price: 18000,
+        stok: 20,
+        supplier: "Bimoli"
+    },
+    {
+        _id: 6,
+        name: "Ramos Rice 5kg",
+        category: "Grocery",
+        price: 60000,
+        stok: 16,
+        supplier: "PT Pangan"
+    },
+    {
+        _id: 7,
+        name: "Teh Pucuk Harum",
+        category: "Drink",
+        price: 4000,
+        stok: 60,
+        supplier: "Mayora"
+    },
+    {
+        _id: 8,
+        name: "Roma Coconut Biscuit",
+        category: "Food",
+        price: 7000,
+        stok: 40,
+        supplier: "Mayora"
+    },
+    {
+        _id: 9,
+        name: "Lifebuoy Soap",
+        category: "Household",
+        price: 3500,
+        stok: 75,
+        supplier: "Uniliver"
+    },
+    {
+        _id: 10,
+        name: "Pepsodent 75gr",
+        category: "Household",
+        price: 8000,
+        stok: 55,
+        supplier: "Uniliver"
+    }
+])
+
+
+// kan di collection products ada ini,tapi di tugas ngk ada ini jadi saya hapus saja
+db.products.deleteOne({ name: "Laptop Asus ROG strix"  })
+db.products.deleteOne({ name: 'Keyboard Logitech' })
+
+// 2. Saya bikin Customers.insertMany
+db.customers.deleteOne({  name: 'Alisa Cahyani'})
+
+db.customers.insertMany([
+    {
+      _id: 1,
+      name: "Alisa Cahyani",
+      gender: "P",
+      phone: "081212345678",
+      addres:{
+      street: "Jl.Anggrek",
+      city : "Jakarta",
+    },
+      birth_date: "1985-04-02"
+    },
+    {
+      _id: 2,
+      name: "Siti Maesaroh",
+      gender: "P",
+      phone: "085712345679",
+      address:{
+      street: "Jl.Apel",
+      city : "Bandung",
+    },
+      birth_date: "1990-07-15"
+    },
+    {
+      _id: 3,
+      name: "Rina Oktaviana",
+      gender: "P",
+      phone: "081212345679",
+      address:{
+      street: "Jl.Melati",
+      city : "Surabaya",
+    },
+      birth_date: "2001-06-22"
+    },
+    {
+      _id: 4,
+      name: "Dewi Sartika",
+      gender: "P",
+      phone: "085712345680",
+      address:{
+      street: "Jl.Apel",
+      city : "Bandung",
+    },
+      birth_date: "2003-09-12"
+    },
+    {
+      _id: 5,
+      name: "Ayu Lestari",
+      gender: "P",
+      phone: "081212345680",
+      address:{
+      street: "Jl.Merpati",
+      city : "Jakarta",
+    },
+      birth_date: "2002-11-21"
+    },
+    {
+      _id: 6,
+      name: "Andi Nungroho",
+      gender: "L",
+      phone: "081212345681",
+      address:{
+      street: "Jl.Merpati",
+      city : "Medan",
+    },
+      birth_date: "2000-01-01"
+    },
+    {
+      _id: 7,
+      name: "Budi Santoso",
+      gender: "L",
+      phone: "085712345681",
+      address:{
+      street: "Jl.Apel",
+      city : "Bandung",
+    },
+      birth_date: "2004-08-18"
+    },
+    {
+      _id: 8,
+      name: "Rizky Ramadhan",
+      gender: "L",
+      phone: "081212345682",
+      address:{
+      street: "Jl.Jeruk",
+      city : "Surabaya",
+    },
+      birth_date: "2001-07-15"
+    },
+     {
+      _id: 9,
+      name: "Joko Prasetio",
+      gender: "L",
+      phone: "081212345683",
+      address:{
+      street: "Jl.Mangga",
+      city : "Jakarta",
+    },
+      birth_date: "2005-06-01"
+    },
+    {
+      _id: 10,
+      name: "Yoga saputra",
+      gender: "L",
+      phone: "085712345682",
+      address:{
+      street: "Jl.Anggrek",
+      city : "Medan",
+    },
+      birth_date: "2002-12-12"
+    }
+])
+
+// 3. Saya bikin Orders.insertMany
+db.orders.insertMany([
+  {
+    _id: 1,
+    customer_id: 1,
+    order_date: "2024-05-01",
+    payment_method: "cash",
+    status: "completed",
+    total: 16000,
+    items: [
+      { prod: 1, price: 3000, qty: 2 },
+      { prod: 2, price: 5000, qty: 2 }
+    ]
+  },
+   {
+    _id: 2,
+    customer_id: 2,
+    order_date: "2024-05-02",
+    payment_method: "transfer",
+    status: "completed",
+    total: 14000,
+    items: [
+      { prod: 3, price: 4000, qty: 2 },
+      { prod: 4, price: 6000, qty: 1 }
+    ]
+  },
+  {
+    _id: 3,
+    customer_id: 3,
+    order_date: "2024-05-03",
+    payment_method: "cash",
+    status: "completed",
+    total: 6000,
+    items: [
+      { prod: 5, price: 6000, qty: 1 }
+    ]
+  },
+   {
+    _id: 4,
+    customer_id: 4,
+    order_date: "2024-05-04",
+    payment_method: "qris",
+    status: "completed",
+    total: 12000,
+    items: [
+      { prod: 6, price: 4000, qty: 3 }
+    ]
+  },
+   {
+    _id: 5,
+    customer_id: 5,
+    order_date: "2024-05-05",
+    payment_method: "cash",
+    status: "completed",
+    total: 18000,
+    items: [
+      { prod: 7, price: 6000, qty: 3 }
+    ]
+  },
+  {
+    _id: 6,
+    customer_id: 6,
+    order_date: "2024-05-06",
+    payment_method: "transfer",
+    status: "pending",
+    total: 10000,
+    items: [
+      { prod: 8, price: 5000, qty: 2 }
+    ]
+  },
+   {
+    _id: 7,
+    customer_id: 7,
+    order_date: "2024-05-07",
+    payment_method: "cash",
+    status: "completed",
+    total: 24000,
+    items: [
+      { prod: 9, price: 8000, qty: 3 }
+    ]
+  },
+  {
+    _id: 8,
+    customer_id: 8,
+    order_date: "2024-05-08",
+    payment_method: "qris",
+    status: "completed",
+    total: 7000,
+    items: [
+      { prod: 10, price: 7000, qty: 1 }
+    ]
+  },
+  {
+    _id: 9,
+    customer_id: 9,
+    order_date: "2024-05-09",
+    payment_method: "transfer",
+    status: "completed",
+    total: 22000,
+    items: [
+      { prod: 2, price: 5000, qty: 2},
+      {prod: 3, price: 6000, qty: 2}
+    ]
+  },
+  {
+    _id: 10,
+    customer_id: 10,
+    order_date: "2024-05-10",
+    payment_method: "cash",
+    status: "completed",
+    total: 24000,
+    items: [
+      { prod: 1, price: 4000, qty: 2},
+      {prod: 4, price: 8000, qty: 2}
+    ]
+  }
+])
+
+
+db.orders.find({
+  $or: [
+    { payment_method: "cash" },
+    { status: "pending" }
+  ]
+})
+
+// Latihan dari kak sukma 
+1.
+db.orders.find( {$or : [{payment_method:"cash "},{ status:"pending"}]} )
+
+2.
+db.customers.find({$and: [{"address.city":"Jakarta"},{gender : "P",}]})
+
+3.
+db.products.find({price: {$gt  : 5000, $lt: 20000}})
+
+4.
+db.orders.find({total:{ $ne: 24000}})
+
+5.
+db.orders.find({$expr: {$gt: [{ $size:"$items"}, 1]}})
+
+6.
+db.orders.find({items:{$elemMatch: {prod:3 ,qty: {$gt: 1}}}})
+
+7.
+db.products.find({ $and: [{stok : {$gt:50}},{supplier: { $in:["mayora", " Uniliver"]}}]})
+
+// 8.
+//db.customers.find({$and: [{ gender: "L" },{ birth_date: { $gt: "2001-12-31" } }]})
+
+// 9. 
+// db.orders.find({
+//   $and: [
+//     { payment_method: "qris" },
+//     { status: "completed" },
+//     { total: { $gt: 20000 } }
+//   ]
+// })
+
+// 10.
+// db.orders.find({
+//   $and: [
+//     { payment_method: { $in: ["cash", "transfer"] } },
+//     { total: { $gt: 15000 } },
+//     { items: { $elemMatch: { qty: { $gt: 2 } } } }
+//   ]
+// })
+
+
+    </script>
+</body>
+</html>
